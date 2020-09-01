@@ -101,9 +101,10 @@ function App() {
 
 	// Perform the currency conversion calculation
 	const calculateConversion = (amount, from, to) => {
-		const total = parseFloat(amount) * handleConversionFactor(from, to);
+		const total =
+			parseFloat(amount).toFixed(2) * handleConversionFactor(from, to);
 
-		return total;
+		return parseFloat(total).toFixed(2);
 	};
 
 	// Handles the Yes or No option selected for additional user actions
@@ -122,7 +123,7 @@ function App() {
 
 	const handleSubmit = event => {
 		event.preventDefault();
-		setUsers(users.concat(formData));
+		setUsers(users => users.concat(formData));
 	};
 
 	return (
@@ -150,6 +151,7 @@ function App() {
 				fromCurrency={fromCurrency}
 				toCurrency={toCurrency}
 			/>
+			<p className="text-center">&copy; 2020 Valerie Osei</p>
 		</div>
 	);
 }
