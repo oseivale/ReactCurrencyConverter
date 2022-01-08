@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Form, FormGroup } from "reactstrap";
+import './styles.css'
 
 function ConversionForm({
 	handleFormData,
@@ -15,9 +16,8 @@ function ConversionForm({
 	calculateConversion
 }) {
 	return (
-		<div className="container col-lg-4 mt-5">
 			<Form className="form-group p-3 mt-5 pl-5 pr-5 pt-5 bg-white shadow-lg border border-light rounded">
-				<h3 className="mb-5">Please enter the information below</h3>
+				<h4 className="mb-5">Please enter the information below</h4>
 				<div>
 					<label className="mb-2">First Name</label>
 					<input
@@ -38,7 +38,7 @@ function ConversionForm({
 						className="form-control p-1 shadow-sm mb-1"
 					/>
 				</div>
-				<h3 className="mt-5 mb-3">Would you like to convert your currency?</h3>
+				<h4 className="mt-5 mb-3">Would you like to convert your currency?</h4>
 				<div>
 					<label>Yes</label>
 					<input
@@ -76,10 +76,11 @@ function ConversionForm({
 								<option value="EUR">EUR</option>
 							</select>
 						</FormGroup>
-						<h3 className="mt-5 mb-3">
-							Currency to be converted: ${conversionAmount.amount}{" "}
-							{fromCurrency}
-						</h3>
+						<h4 className="mt-5 mb-3">
+							Currency to be converted:
+						</h4>
+						<p> ${conversionAmount.amount}{" "}
+							{fromCurrency}</p>
 						<label for="toAmount">Convert to:</label>
 						<FormGroup row>
 							<select
@@ -93,12 +94,13 @@ function ConversionForm({
 								<option value="EUR">EUR</option>
 							</select>
 						</FormGroup>
-						<h3 className="mt-5 mb-3">
+						<h4 className="mt-5 mb-3">
 							You are converting from {fromCurrency} to {toCurrency}
-						</h3>
+						</h4>
 						<div className="text-primary">
 							<h5>
 								Your total amount is:{" "}
+								</h5>
 								<h2>
 									$
 									{conversionAmount.amount > 0
@@ -110,7 +112,6 @@ function ConversionForm({
 										: 0}{" "}
 									{toCurrency}
 								</h2>
-							</h5>
 						</div>
 					</div>
 				)}
@@ -123,7 +124,6 @@ function ConversionForm({
 					</Button>
 				</div>
 			</Form>
-		</div>
 	);
 }
 

@@ -14,6 +14,8 @@ function App() {
 		amount: 0
 	};
 
+	let date = new Date();
+
 	// Application State
 	const [formData, setFormData] = useState(initialFormData);
 	const [users, setUsers] = useState([]);
@@ -129,29 +131,37 @@ function App() {
 	return (
 		<div className="App">
 			<Header />
-			<ConversionForm
-				formData={formData}
-				handleFormData={handleFormData}
-				handleAmountChange={handleAmountChange}
-				handleOptionYesNo={handleOptionYesNo}
-				selectedYesNo={selectedYesNo}
-				handleSubmit={handleSubmit}
-				handleFromCurrency={handleFromCurrency}
-				conversionAmount={conversionAmount}
-				fromCurrency={fromCurrency}
-				handleToCurrency={handleToCurrency}
-				toCurrency={toCurrency}
-				handleConversionFactor={handleConversionFactor}
-				calculateConversion={calculateConversion}
-			/>
-			<Output
-				users={users}
-				calculateConversion={calculateConversion}
-				conversionAmount={conversionAmount}
-				fromCurrency={fromCurrency}
-				toCurrency={toCurrency}
-			/>
-			<p className="text-center">&copy; 2020 Valerie Osei</p>
+			<div className="container">
+			<div className="row">
+				<div className="col-sm">
+				<ConversionForm
+					formData={formData}
+					handleFormData={handleFormData}
+					handleAmountChange={handleAmountChange}
+					handleOptionYesNo={handleOptionYesNo}
+					selectedYesNo={selectedYesNo}
+					handleSubmit={handleSubmit}
+					handleFromCurrency={handleFromCurrency}
+					conversionAmount={conversionAmount}
+					fromCurrency={fromCurrency}
+					handleToCurrency={handleToCurrency}
+					toCurrency={toCurrency}
+					handleConversionFactor={handleConversionFactor}
+					calculateConversion={calculateConversion}
+				/>
+			</div>
+			<div className="col-sm">	
+				<Output
+					users={users}
+					calculateConversion={calculateConversion}
+					conversionAmount={conversionAmount}
+					fromCurrency={fromCurrency}
+					toCurrency={toCurrency}
+				/>
+			</div>
+			</div>
+			</div>
+			<p className="my-5 text-center">&copy; {date.getFullYear()} Valerie Osei</p>
 		</div>
 	);
 }
