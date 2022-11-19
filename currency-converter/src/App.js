@@ -1,15 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import ConversionForm from "./ConversionForm";
 import Output from "./Output";
 
 function App() {
-	// Initial State Variables
-	const initialFormData = {
-		firstName: "",
-		lastName: ""
-	};
 
+	// Initial state variables
 	const initialConversionAmount = {
 		amount: 0
 	};
@@ -17,14 +13,18 @@ function App() {
 	let date = new Date();
 
 	// Application State
-	const [formData, setFormData] = useState(initialFormData);
-	const [users, setUsers] = useState([]);
-	const [fromCurrency, setFromCurrency] = useState("CAD");
-	const [toCurrency, setToCurrency] = useState("USD");
-	const [selectedYesNo, setSelectedYesNo] = useState(false);
 	const [conversionAmount, setConversionAmount] = useState(
 		initialConversionAmount
 	);
+
+	const [formData, setFormData] = useState({
+		firstName: "",
+		lastName: "",
+		fromCurrency: "CAD",
+		toCurrency: "USD",
+		selectedYesNo: false,
+		submitted: false
+	})
 
 	// Handles the first and last name input feilds
 	const handleFormData = event => {
@@ -33,16 +33,6 @@ function App() {
 
 			[event.target.name]: event.target.value
 		});
-	};
-
-	// Handles the currency we convert FROM
-	const handleFromCurrency = event => {
-		setFromCurrency(event.target.value);
-	};
-
-	// Handles the currency we convert TO
-	const handleToCurrency = event => {
-		setToCurrency(event.target.value);
 	};
 
 	// Handles the currency conversion factor
@@ -55,14 +45,14 @@ function App() {
 			conversionFactor = 16.79;
 		} else if (fromCurrency === "CAD" && toCurrency === "EUR") {
 			conversionFactor = 0.64;
-		} else if (fromCurrency === "CAD" && toCurrency === "GHS") {
+		} else if (fromCurrency === "CAD" && toCurrency === "GH₵") {
 			conversionFactor = 4.42;
 		} // Conversion from USD
 		else if (fromCurrency === "USD" && toCurrency === "MXN") {
 			conversionFactor = 21.85;
 		} else if (fromCurrency === "USD" && toCurrency === "EUR") {
 			conversionFactor = 0.84;
-		} else if (fromCurrency === "USD" && toCurrency === "GHS") {
+		} else if (fromCurrency === "USD" && toCurrency === "GH₵") {
 			conversionFactor = 5.76;
 		} else if (fromCurrency === "USD" && toCurrency === "CAD") {
 			conversionFactor = 1.3;
@@ -73,25 +63,25 @@ function App() {
 			conversionFactor = 0.06;
 		} else if (fromCurrency === "MXN" && toCurrency === "EUR") {
 			conversionFactor = 0.038;
-		} else if (fromCurrency === "MXN" && toCurrency === "GHS") {
+		} else if (fromCurrency === "MXN" && toCurrency === "GH₵") {
 			conversionFactor = 0.26;
 		} // Conversion from EUR
 		else if (fromCurrency === "EUR" && toCurrency === "CAD") {
 			conversionFactor = 1.56;
 		} else if (fromCurrency === "EUR" && toCurrency === "USD") {
 			conversionFactor = 1.2;
-		} else if (fromCurrency === "EUR" && toCurrency === "GHS") {
+		} else if (fromCurrency === "EUR" && toCurrency === "GH₵") {
 			conversionFactor = 6.89;
 		} else if (fromCurrency === "EUR" && toCurrency === "MXN") {
 			conversionFactor = 26.14;
 		} // Conversion from GHS
-		else if (fromCurrency === "GHS" && toCurrency === "CAD") {
+		else if (fromCurrency === "GH₵" && toCurrency === "CAD") {
 			conversionFactor = 0.23;
-		} else if (fromCurrency === "GHS" && toCurrency === "USD") {
+		} else if (fromCurrency === "GH₵" && toCurrency === "USD") {
 			conversionFactor = 0.17;
-		} else if (fromCurrency === "GHC" && toCurrency === "MXN") {
+		} else if (fromCurrency === "GH₵" && toCurrency === "MXN") {
 			conversionFactor = 3.79;
-		} else if (fromCurrency === "GHS" && toCurrency === "EUR") {
+		} else if (fromCurrency === "GH₵" && toCurrency === "EUR") {
 			conversionFactor = 0.15;
 		} // Trying to convert same currency
 		else if (fromCurrency === toCurrency) {
@@ -109,11 +99,6 @@ function App() {
 		return parseFloat(total).toFixed(2);
 	};
 
-	// Handles the Yes or No option selected for additional user actions
-	const handleOptionYesNo = event => {
-		setSelectedYesNo(event.target.value);
-	};
-
 	// Handles the amount to be converted
 	const handleAmountChange = event => {
 		setConversionAmount({
@@ -125,8 +110,18 @@ function App() {
 
 	const handleSubmit = event => {
 		event.preventDefault();
-		setUsers(users => users.concat(formData));
+		setFormData(prevState => {
+			return { ...prevState, submitted: true }
+		})
+		window.scrollTo({
+			top: 0,
+			behavior: "smooth"
+		  })
 	};
+
+	useEffect(() => {
+		console.log(formData)
+	}, [formData])
 
 	return (
 		<div className="App">
@@ -138,25 +133,17 @@ function App() {
 					formData={formData}
 					handleFormData={handleFormData}
 					handleAmountChange={handleAmountChange}
-					handleOptionYesNo={handleOptionYesNo}
-					selectedYesNo={selectedYesNo}
-					handleSubmit={handleSubmit}
-					handleFromCurrency={handleFromCurrency}
 					conversionAmount={conversionAmount}
-					fromCurrency={fromCurrency}
-					handleToCurrency={handleToCurrency}
-					toCurrency={toCurrency}
 					handleConversionFactor={handleConversionFactor}
 					calculateConversion={calculateConversion}
+					handleSubmit={handleSubmit}
 				/>
 			</div>
 			<div className="col-sm">	
 				<Output
-					users={users}
+					formData={formData}
 					calculateConversion={calculateConversion}
 					conversionAmount={conversionAmount}
-					fromCurrency={fromCurrency}
-					toCurrency={toCurrency}
 				/>
 			</div>
 			</div>

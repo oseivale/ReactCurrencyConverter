@@ -1,20 +1,16 @@
 import React from "react";
 import { Button, Form, FormGroup } from "reactstrap";
-import './styles.css'
+import './styles.css';
 
 function ConversionForm({
+	formData,
 	handleFormData,
 	handleSubmit,
 	handleAmountChange,
 	conversionAmount,
-	handleOptionYesNo,
-	selectedYesNo,
-	handleFromCurrency,
-	handleToCurrency,
-	fromCurrency,
-	toCurrency,
 	calculateConversion
 }) {
+
 	return (
 			<Form className="form-group p-3 mt-5 pl-5 pr-5 pt-5 bg-white shadow-lg border border-light rounded">
 				<h4 className="mb-5">Please enter the information below</h4>
@@ -23,6 +19,7 @@ function ConversionForm({
 					<input
 						type="text"
 						name="firstName"
+						value={formData.firstName}
 						onChange={handleFormData}
 						placeholder="Enter your first name"
 						className="form-control p-1 shadow-sm mb-4"
@@ -33,6 +30,7 @@ function ConversionForm({
 					<input
 						type="text"
 						name="lastName"
+						value={formData.lastName}
 						onChange={handleFormData}
 						placeholder="Enter your last name"
 						className="form-control p-1 shadow-sm mb-1"
@@ -43,23 +41,25 @@ function ConversionForm({
 					<label>Yes</label>
 					<input
 						type="radio"
+						name="selectedYesNo"
 						value="Yes"
-						checked={selectedYesNo === "Yes"}
-						onChange={handleOptionYesNo}
+						checked={formData.selectedYesNo === "Yes"}
+						onChange={handleFormData}
 						className="mr-5 ml-2"
 					/>
 					<label>No</label>
 					<input
 						type="radio"
+						name="selectedYesNo"
 						value="No"
-						checked={selectedYesNo === "No"}
-						onChange={handleOptionYesNo}
+						checked={formData.selectedYesNo === "No"}
+						onChange={handleFormData}
 						className="mr-5 ml-2"
 					/>
 				</div>
-				{selectedYesNo === "Yes" && (
+				{formData.selectedYesNo === "Yes" && (
 					<div className="mt-5">
-						<label for="fromAmount">Enter amount to convert from:</label>
+						<label htmlFor="fromAmount">Enter amount to convert from:</label>
 						<FormGroup row>
 							<input
 								type="text"
@@ -68,11 +68,11 @@ function ConversionForm({
 								placeholder="E.g. $100"
 								className="ml-3"
 							/>
-							<select value={fromCurrency} onChange={handleFromCurrency}>
+							<select name="fromCurrency" value={formData.fromCurrency} onChange={handleFormData}>
 								<option value="CAD">CAD</option>
 								<option value="USD">USD</option>
 								<option value="MXN">MXN</option>
-								<option value="GHS">GHS</option>
+								<option value="GH₵">GH₵</option>
 								<option value="EUR">EUR</option>
 							</select>
 						</FormGroup>
@@ -80,22 +80,23 @@ function ConversionForm({
 							Currency to be converted:
 						</h4>
 						<p> ${conversionAmount.amount}{" "}
-							{fromCurrency}</p>
-						<label for="toAmount">Convert to:</label>
+							{formData.fromCurrency}</p>
+						<label htmlFor="toAmount">Convert to:</label>
 						<FormGroup row>
 							<select
-								value={toCurrency}
-								onChange={handleToCurrency}
+								name="toCurrency"
+								value={formData.toCurrency}
+								onChange={handleFormData}
 								className="ml-3 p-1">
 								<option value="CAD">CAD</option>
 								<option value="USD">USD</option>
 								<option value="MXN">MXN</option>
-								<option value="GHS">GHS</option>
+								<option value="GH₵">GH₵</option>
 								<option value="EUR">EUR</option>
 							</select>
 						</FormGroup>
 						<h4 className="mt-5 mb-3">
-							You are converting from {fromCurrency} to {toCurrency}
+							You are converting from {formData.fromCurrency} to {formData.toCurrency}
 						</h4>
 						<div className="text-primary">
 							<h5>
@@ -106,11 +107,11 @@ function ConversionForm({
 									{conversionAmount.amount > 0
 										? calculateConversion(
 												conversionAmount.amount,
-												fromCurrency,
-												toCurrency
+												formData.fromCurrency,
+												formData.toCurrency
 										  )
 										: 0}{" "}
-									{toCurrency}
+									{formData.toCurrency}
 								</h2>
 						</div>
 					</div>

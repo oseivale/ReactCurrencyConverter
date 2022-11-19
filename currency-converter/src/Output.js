@@ -10,10 +10,8 @@ import ghFlag from './images/255px-Flag_of_Ghana.svg.png'
 import './styles.css'
 
 function Output({
-	users,
+	formData,
 	calculateConversion,
-	toCurrency,
-	fromCurrency,
 	conversionAmount
 }) {
 
@@ -26,7 +24,7 @@ function Output({
 			img = usFlag
 		} else if (currency === 'MXN'){
 			img = mexFlag
-		} else if( currency === 'GHS'){
+		} else if( currency === 'GH₵'){
 			img = ghFlag
 		} else {
 			img = euro
@@ -36,38 +34,37 @@ function Output({
 	}
 
 	return (
-		<div>
-			{users.length <= 1 &&
-				users.map(item => {
-					return (
-						<div
-							className="p-3 mt-5 pl-5 pr-5 pt-5 bg-white shadow-lg border border-light rounded"
-							key={v4()}>
-							<h4>Hi, {item.firstName}!</h4>
-							<p>Here are the details of your transaction:</p>
-							<p>
-								You converted {conversionAmount.amount} {fromCurrency}<span><img class="currency-img" src={currencyImg(fromCurrency)} /></span> to: {toCurrency}<span><span><img class="currency-img" src={currencyImg(toCurrency)} /></span></span>
-							</p>
-							
-							<h4>
-								Which is:{" "}
-							</h4>
-							<h2 class="text-success">
-							{parseFloat(conversionAmount.amount) > 0
-									? calculateConversion(
-											conversionAmount.amount,
-											fromCurrency,
-											toCurrency
-									  )
-									: 0}{" "}
-								{toCurrency}
-							</h2>
+	<div>
+		{formData.submitted && (
+			<div
+			className="p-3 mt-5 pl-5 pr-5 pt-5 bg-white shadow-lg border border-light rounded"
+			key={v4()}>
+			<h4>Hi, {formData.firstName}!</h4>
+			<p>Here are the details of your transaction:</p>
+			<p>
+				You converted {conversionAmount.amount} {formData.fromCurrency}<span><img className="currency-img" src={currencyImg(formData.fromCurrency)} /></span> to: {formData.toCurrency}<span><span><img className="currency-img" src={currencyImg(formData.toCurrency)} /></span></span>
+			</p>
+			
+			<h4>
+				Which is:{" "}
+			</h4>
+			<h2 className="text-success">
+			{parseFloat(conversionAmount.amount) > 0
+					? calculateConversion(
+							conversionAmount.amount,
+							formData.fromCurrency,
+							formData.toCurrency
+					  )
+					: 0}{" "}
+				{formData.toCurrency}
+			</h2>
 
-						</div>
-					);
-				})}
 		</div>
+		)}
+	</div>
+						
 	);
+	
 }
 
 export default Output;
